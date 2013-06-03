@@ -17,9 +17,16 @@ struct sll{
 	sll(){
 		head = NULL;
 	}
-	void cons(int f){
+	void insertBeginning(int f){
 		node_t* temp = head;
 		head = new node_t(f, temp);
+	}
+
+	// The node pointed by ptr_to_new_node is the successor of the 
+	// node pointed by ptr_to_node
+	void insertAfter(node_t* ptr_to_node, node_t* ptr_to_new_node){
+		ptr_to_new_node->next = new_node->next;
+		ptr_to_node->next = new_node->next;
 	}
 	void deleteHead(){
 		if(head){
@@ -40,6 +47,7 @@ struct sll{
 			p = p->next;
 		}
 	}
+
 };
 
 int main(){
