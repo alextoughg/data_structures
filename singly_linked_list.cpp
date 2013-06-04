@@ -25,10 +25,13 @@ struct sll{
 	// The node pointed by ptr_to_new_node is the successor of the 
 	// node pointed by ptr_to_node
 	void insertAfter(node_t* ptr_to_node, node_t* ptr_to_new_node){
-		ptr_to_new_node->next = new_node->next;
-		ptr_to_node->next = new_node->next;
+		if(ptr_to_node && ptr_to_new_node){
+			ptr_to_new_node->next = ptr_to_node->next;
+			ptr_to_node->next = ptr_to_new_node;
+		}
 	}
-	void deleteHead(){
+
+	void removeBeginning(){
 		if(head){
 			//(According to Wikipedia)
 			//node_t* obsolete = head;
@@ -40,6 +43,19 @@ struct sll{
 			head = next;
 		}		
 	}
+
+	// Remove the node after the node pointed to 
+	// by ptr_to_node
+	void removeAfter(node_t* ptr_to_node){
+		if(ptr_to_node){
+			node_t* obsolete = ptr_to_node->next;
+			node_t* obsolete_succ = obsolete->next;
+			delete obsolete;
+			ptr_to_node->next = obsolete_succ;
+		}
+	}
+
+	// The contents of the list printed to stdio.
 	void peek(){
 		node_t* p = head;
 		while(p){
@@ -48,14 +64,31 @@ struct sll{
 		}
 	}
 
+	// NOTE: Given that we don't have back pointers, 
+	// the operations insertBefore and deleteBefore 
+	// are not possible to implement.
+
+	// NOTE: If we had a dummy element at the beginning 
+	// of the list, the operations insertBeginning and 
+	// removeBeginning would not be necessary.
+
+	// SOURCE: Wikipedia.
 };
 
 int main(){
+
+	// Normal cases
 	sll l = sll();
-	l.cons(1);
-	l.cons(2);
-	l.cons(3);
+	l.insertBeginning(1);
+	l.insertAfter(l.head, new node_t(2,NULL));
+	l.insertAfter(l.head, new node_t(3,NULL));
 	l.peek();
-	l.deleteHead();
+	l.removeBeginning();
 	l.peek();
+	l.removeAfter(l.head);
+	l.peek();
+	l.removeBeginning();
+	l.peek();
+
+
 }
